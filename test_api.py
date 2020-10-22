@@ -19,12 +19,14 @@ def test_get_negative(session, base_url, post_id):
     assert res.json() == {}
 
 
-def test_get_all(session, base_url):
+@pytest.mark.parametrize('keys', [['userId', 'id', 'title', 'completed']])
+def test_get_all(session, base_url, keys):
     res = session.get(url=f'{base_url}')
 
     assert len(res.json()) == POSTS_MAX
     for elem in res.json():
-        assert elem['id'] == 
+        for key in elem.keys():
+            assert key in keys
 
 
 def test_post(session, base_url):
